@@ -54,10 +54,3 @@ taskList.addEventListener('click', (e) => {
         e.target.classList.toggle('completed');
     }
 });
-
-// Fonction pour enlever une tâche de l'etat de terminée
-taskList.addEventListener('click', (e) => {
-    if (e.target.tagName === 'BUTTON' && e.target.id === 'btn1') {
-        e.target.parentElement.classList.toggle('completed');
-    }
-});
