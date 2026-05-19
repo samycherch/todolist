@@ -57,7 +57,10 @@ function moveToPlanned(btn) {
 }
 
 function deleteTask(btn) {
-    btn.closest('li').remove();
+    const confirmed = confirm("Êtes-vous sûr de vouloir supprimer cette tâche ?");
+    if (confirmed) {
+        btn.closest('li').remove();
+    }
 }
 
 addBtn.addEventListener('click', addTask);
