@@ -56,11 +56,23 @@ function moveToPlanned(btn) {
     taskItem.remove();
 }
 
+let taskToDelete = null;
+
 function deleteTask(btn) {
-    const confirmed = confirm("Êtes-vous sûr de vouloir supprimer cette tâche ?");
-    if (confirmed) {
-        btn.closest('li').remove();
+    taskToDelete = btn.closest('li');
+    document.getElementById('confirmModal').classList.add('active');
+}
+
+function confirmDelete() {
+    if (taskToDelete) {
+        taskToDelete.remove();
+        taskToDelete = null;
     }
+    hideModal();
+}
+
+function hideModal() {
+    document.getElementById('confirmModal').classList.remove('active');
 }
 
 addBtn.addEventListener('click', addTask);
@@ -70,4 +82,7 @@ taskInput.addEventListener('keypress', (e) => {
         addTask();
     }
 });
+
+document.getElementById('confirmDelete').addEventListener('click', confirmDelete);
+document.getElementById('cancelDelete').addEventListener('click', hideModal);
 
