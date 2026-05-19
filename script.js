@@ -32,7 +32,18 @@ function addTask() {
 
 // Fonction pour supprimer une tâche
 function markAsDone(btn) {
-    btn.parentElement.classList.toggle('completed');
+    const taskItem = btn.parentElement;
+    taskItem.classList.toggle('completed');
+
+    if (taskItem.classList.contains('completed')) {
+        btn.textContent = '↩';
+        btn.title = 'Non terminée';
+        btn.style.backgroundColor = '#3309b2';
+    } else {
+        btn.textContent = '✓';
+        btn.title = 'Terminée';
+        btn.style.backgroundColor = '#2ecc71';
+    }
 }
 function deleteTask(btn) {
     btn.parentElement.remove();
