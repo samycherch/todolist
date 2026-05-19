@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ma To-Do List</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="container">
         <h1>Ma To-Do List</h1>
@@ -15,11 +17,24 @@
             <button id="addBtn">Ajouter</button>
         </div>
 
-        <ul id="taskList" class="task-list">
-            <!-- Les tâches apparaîtront ici -->
-        </ul>
-    </div>
+        <div class="columns">
+            <div class="board">
+                <h2>A faire</h2>
+                <ul id="plannedList"></ul>
+            </div>
 
+            <div class="board">
+                <h2>En cours</h2>
+                <ul id="inProgressList"></ul>
+            </div>
+
+            <div class="board">
+                <h2>Terminées</h2>
+                <ul id="doneList"></ul>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
+
 </html>

@@ -1,67 +1,70 @@
 // Récupère les éléments du DOM
 const taskInput = document.getElementById('taskInput');
 const addBtn = document.getElementById('addBtn');
-const taskList = document.getElementById('taskList');
+const plannedList = document.getElementById('plannedList');
+const inProgressList = document.getElementById('inProgressList');
+const doneList = document.getElementById('doneList');
 
 // Fonction pour ajouter une tâche
 function addTask() {
     const taskText = taskInput.value.trim();
+    if (taskText === '') return;
 
-    if (taskText === '') {
-        alert('Veuillez entrer une tâche !');
-        return;
-    }
+    const li = createTaskItem(taskText, 'planned');
+    plannedList.appendChild(li);
 
-    // Crée un élément <li>
-    const li = document.createElement('li');
-    li.className = 'task-item';
-    li.innerHTML = `
-        <span>${taskText}</span>
-        <button id="btn1" onclick="markAsDone(this)">✓</button>
-        <button id="btn2" onclick="deleteTask(this)">✗</button>
-    `;
-
-
-    // Ajoute la tâche à la liste
-    taskList.appendChild(li);
-
-    // Vide l'input
     taskInput.value = '';
     taskInput.focus();
 }
 
-// Fonction pour supprimer une tâche
-function markAsDone(btn) {
-    const taskItem = btn.parentElement;
-    taskItem.classList.toggle('completed');
-
-    if (taskItem.classList.contains('completed')) {
-        btn.textContent = '↩';
-        btn.title = 'Non terminée';
-        btn.style.backgroundColor = '#3309b2';
-    } else {
-        btn.textContent = '✓';
-        btn.title = 'Terminée';
-        btn.style.backgroundColor = '#2ecc71';
-    }
+function createTaskItem(taskText, status) {
+    const li = document.createElement('li');
+    li.className = 'task-item';
+    li.innerHTML = `
+        <span>${taskText}</span>
+        <div class="task-buttons">
+            ${status === 'planned' ? '<button class="start-btn" onclick="moveToInProgress(this)">✓</button>' : ''}
+            ${status === 'in-progress' ? '<button class="finish-btn" onclick="moveToDone(this)">✓</button><button class="redo-btn" onclick="moveToPlanned(this)">↺</button>' : ''}
+            ${status === 'done' ? '<button class="redo-btn" onclick="moveToInProgress(this)">↺</button>' : ''}
+            <button class="delete-btn" onclick="deleteTask(this)">✕</button>
+        </div>
+    `;
+    return li;
 }
+
+function moveToInProgress(btn) {
+    const taskItem = btn.closest('li');
+    const taskText = taskItem.querySelector('span').textContent;
+    const newItem = createTaskItem(taskText, 'in-progress');
+    inProgressList.appendChild(newItem);
+    taskItem.remove();
+}
+
+function moveToDone(btn) {
+    const taskItem = btn.closest('li');
+    const taskText = taskItem.querySelector('span').textContent;
+    const newItem = createTaskItem(taskText, 'done');
+    doneList.appendChild(newItem);
+    taskItem.remove();
+}
+
+function moveToPlanned(btn) {
+    const taskItem = btn.closest('li');
+    const taskText = taskItem.querySelector('span').textContent;
+    const newItem = createTaskItem(taskText, 'planned');
+    plannedList.appendChild(newItem);
+    taskItem.remove();
+}
+
 function deleteTask(btn) {
-    btn.parentElement.remove();
+    btn.closest('li').remove();
 }
 
-// Ajoute un événement au bouton
 addBtn.addEventListener('click', addTask);
 
-// Ajoute un événement pour ajouter avec la touche Entrée
 taskInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') {
         addTask();
     }
 });
 
-// Fonction pour marquer une tâche comme terminée
-taskList.addEventListener('click', (e) => {
-    if (e.target.tagName === 'SPAN') {
-        e.target.classList.toggle('completed');
-    }
-});
